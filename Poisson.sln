@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32901.82
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Poisson", "Poisson\Poisson.vcxproj", "{BB475427-26A8-4394-AF2A-A438E04829A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB475427-26A8-4394-AF2A-A438E04829A5}.Debug|x86.ActiveCfg = Debug|Win32
+		{BB475427-26A8-4394-AF2A-A438E04829A5}.Debug|x86.Build.0 = Debug|Win32
+		{BB475427-26A8-4394-AF2A-A438E04829A5}.Release|x86.ActiveCfg = Release|Win32
+		{BB475427-26A8-4394-AF2A-A438E04829A5}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A22F349-076E-484E-BE62-33FBAA912E78}
+	EndGlobalSection
+EndGlobal
