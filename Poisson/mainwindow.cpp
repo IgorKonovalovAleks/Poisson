@@ -94,35 +94,29 @@ void MainWindow::showGraph() {
     int Xn = xn->text().toInt();
     int Yn = yn->text().toInt();
     int maxN = maxsteps->text().toInt();
-    double epsilon = eps->text().toInt();
+    double epsilon = eps->text().toDouble();
 
     if (Xn != slv.N || Yn != slv.M) {
         slv.solve(Xn, Yn, a, b, c, d, epsilon, maxN, v, z);
     }
     else return;
 
-    QSurfaceDataRow* row;
-    QSurfaceDataArray* data;
     dataSeries = new QSurface3DSeries;
-    data = new QSurfaceDataArray;
-
     dataSeries->setItemLabelFormat(QStringLiteral("(@xLabel @yLabel @zLabel)"));
     //dataSeries->setMesh(QAbstract3DSeries::MeshSphere);
-    dataSeries->setDrawMode(QSurface3DSeries::DrawSurface);
-    dataSeries->setFlatShadingEnabled(false);
+    dataSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
 
-
-    QSurfaceDataItem item;
-    for (int i = 0; i <= slv.N; i++) {
-        row = new QSurfaceDataRow;
-        for (int j = 0; j <= slv.M; j++) {
-            double x = slv.h * i;
-            double y = slv.k * j;
-            double z = v[9][i][j];
-            item.setPosition(QVector3D(x, y, z));
-            row->append(item);
+    QSurfaceDataArray* data = new QSurfaceDataArray;
+    double x, y, u;
+    for (int j = 0; j <= slv.N; j++) {
+        QSurfaceDataRow* row = new QSurfaceDataRow;
+        for (int i = 0; i <= slv.M; i++) {
+            x = slv.h * i;
+            y = slv.k * j;
+            u = v[9][j][i];
+            *row << QVector3D(x, u, y);
         }
-        data->append(row);
+        *data << row;
     }
     //dataSeries->setName(QString("Сфера r = " + QString::number(radius)));
     dataSeries->dataProxy()->resetArray(data);
@@ -130,8 +124,8 @@ void MainWindow::showGraph() {
     dataSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
     view->addSeries(dataSeries);
     view->axisX()->setRange(a, b);
-    view->axisY()->setRange(c, d);
-    view->axisZ()->setRange(0, 5);
+    view->axisY()->setRange(0, 5);
+    view->axisZ()->setRange(c, d);
 }
 
 void MainWindow::setT(int t){
