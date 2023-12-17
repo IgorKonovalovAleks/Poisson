@@ -101,7 +101,7 @@ double solver::step(std::vector<std::vector<double>>& v, std::vector<std::vector
 	double max_z = 0;
 	for (int i = 1; i < N; i++)
 		for (int j = 1; j < M; j++) {
-			v[i][j] = (f(h * i, k * j) - hor * (v[i - 1][j] + v[i + 1][j]) - ver * (v[i][j - 1] + v[i][j + 1])) / A;
+			v[i][j] = (-f(h * i, k * j) - hor * (v[i - 1][j] + v[i + 1][j]) - ver * (v[i][j - 1] + v[i][j + 1])) / A;
 			z[i][j] = v[i][j] - u(i * h, j * k);
 			if (z[i][j] > max_z)
 				max_z = z[i][j];

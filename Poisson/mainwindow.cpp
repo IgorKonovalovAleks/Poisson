@@ -107,14 +107,10 @@ void MainWindow::showGraph() {
     dataSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
 
     QSurfaceDataArray* data = new QSurfaceDataArray;
-    double x, y, u;
-    for (int j = 0; j <= slv.N; j++) {
+    for (int j = 0; j <= slv.M; j++) {
         QSurfaceDataRow* row = new QSurfaceDataRow;
-        for (int i = 0; i <= slv.M; i++) {
-            x = slv.h * i;
-            y = slv.k * j;
-            u = v[9][j][i];
-            *row << QVector3D(x, u, y);
+        for (int i = 0; i <= slv.N; i++) {
+            *row << QVector3D(slv.h * i, v[9][j][i], slv.k * j);
         }
         *data << row;
     }
@@ -123,6 +119,26 @@ void MainWindow::showGraph() {
     dataSeries->setItemLabelFormat("solution @xLabel @yLabel @zLabel");
     dataSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
     view->addSeries(dataSeries);
+
+    dataSeries = new QSurface3DSeries;
+    dataSeries->setItemLabelFormat(QStringLiteral("(@xLabel @yLabel @zLabel)"));
+    //dataSeries->setMesh(QAbstract3DSeries::MeshSphere);
+    dataSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
+
+    data = new QSurfaceDataArray;
+    for (int j = 0; j <= slv.M; j++) {
+        QSurfaceDataRow* row = new QSurfaceDataRow;
+        for (int i = 0; i <= slv.N; i++) {
+            *row << QVector3D(slv.h * i, u_real::u(slv.h * i, slv.k * j), slv.k * j);
+        }
+        *data << row;
+    }
+    //dataSeries->setName(QString("Сфера r = " + QString::number(radius)));
+    dataSeries->dataProxy()->resetArray(data);
+    dataSeries->setItemLabelFormat("solution @xLabel @yLabel @zLabel");
+    dataSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    view->addSeries(dataSeries);
+
     view->axisX()->setRange(a, b);
     view->axisY()->setRange(0, 5);
     view->axisZ()->setRange(c, d);
@@ -160,6 +176,34 @@ void MainWindow::setT(int t){
     dataSeries->setItemLabelFormat("solution @xLabel @yLabel @zLabel");
     dataSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
     view->addSeries(dataSeries);
+
+    dataSeries = new QSurface3DSeries;
+    data = new QSurfaceDataArray;
+
+    dataSeries->setItemLabelFormat(QStringLiteral("(@xLabel @yLabel @zLabel)"));
+    //dataSeries->setMesh(QAbstract3DSeries::MeshSphere);
+    dataSeries->setDrawMode(QSurface3DSeries::DrawSurface);
+    dataSeries->setFlatShadingEnabled(false);
+
+
+    for (int i = 0; i <= slv.N; i++) {
+        row = new QSurfaceDataRow;
+        for (int j = 0; j <= slv.M; j++) {
+            double x = slv.h * i;
+            double y = slv.k * j;
+            double z = u_real::u(x, y);
+            item.setPosition(QVector3D(x, y, z));
+            row->append(item);
+        }
+        data->append(row);
+    }
+    //dataSeries->setName(QString("Сфера r = " + QString::number(radius)));
+    dataSeries->dataProxy()->resetArray(data);
+    dataSeries->setItemLabelFormat("solution @xLabel @yLabel @zLabel");
+    dataSeries->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
+    view->addSeries(dataSeries);
+
+
     view->axisX()->setRange(a, b);
     view->axisY()->setRange(c, d);
     view->axisZ()->setRange(0, 5);
