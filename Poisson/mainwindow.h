@@ -20,31 +20,36 @@
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    Q3DSurface *view;
-    QLineEdit *xn;
-    QLineEdit *yn;
-    QLineEdit *eps;
-    QLineEdit *maxsteps;
-    QSlider *slider;
-    QLabel *valueLabel;
-    std::vector<QSurface3DSeries> iterations;
-    QSurface3DSeries *dataSeries;
-    solver slv;
-    std::vector<std::vector<std::vector<double>>> v;
-    std::vector<std::vector<std::vector<double>>> z;
-    double a, b, c, d;
+  Q3DSurface* view;
+  QLineEdit* xn;
+  QLineEdit* yn;
+  QLineEdit* eps;
+  QLineEdit* maxsteps;
+  QSlider* slider;
+  QLabel* valueLabel;
+  QLabel* label5;
+  QSurface3DSeries* iterations[10];
+  QSurface3DSeries* dataSeries = nullptr;
+  QSurface3DSeries* dataTrueSeries = nullptr;
+  solver slv;
+  std::vector<std::vector<std::vector<double>>> v;
+  std::vector<std::vector<std::vector<double>>> z;
+  double a, b, c, d;
 
-    MainWindow(QWidget* parent = nullptr);
+  MainWindow(QWidget* parent = nullptr);
 
-    ~MainWindow();
+  ~MainWindow();
 
-    bool activePlot{false};
+  bool activePlot{ false };
 
-    void showGraph();
-
-    void showTable();
-    void setT(int t);
+  void showGraph();
+  void showTrueGraph();
+  void removeGraph();
+  void removeTrueGraph();
+  void showTable();
+  void showSphere();
+  void setT(int t);
 };
